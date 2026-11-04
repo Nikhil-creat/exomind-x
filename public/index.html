@@ -1,0 +1,102 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ExoMind-X Enterprise — Autonomous Exoplanet Discovery</title><meta name="description" content="Multi-agent Kepler exoplanet discovery: dual-branch CNN, LangGraph agents, hybrid RAG, active-learning HITL.">
+<meta property="og:title" content="ExoMind-X Enterprise"><meta property="og:description" content="Autonomous multi-agent exoplanet discovery and astrophysics RAG platform."><meta property="og:type" content="website"><meta name="theme-color" content="#0c0c0c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='56' fill='%230c0c0c'/%3E%3Ccircle cx='128' cy='128' r='60' fill='%2300d2ff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body><noscript><p style="padding:24px">Please enable JavaScript to use the ExoMind-X console.</p></noscript><div id="prog"></div>
+<div id="bg"><video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_064122_c4750c0e-7476-4b44-94a2-a85a65c63bf2.mp4"></video></div>
+<div class="gl"></div><div class="gl r"></div>
+<nav><div class="w"><a href="#top"><svg width="32" height="32" viewBox="0 0 256 256" fill="#fff"><path d="M 0 128 C 70.692 128 128 185.308 128 256 L 64 256 C 64 220.654 35.346 192 0 192 Z M 256 192 C 220.654 192 192 220.654 192 256 L 128 256 C 128 185.308 185.308 128 256 128 Z M 128 0 C 128 70.692 70.692 128 0 128 L 0 64 C 35.346 64 64 35.346 64 0 Z M 192 0 C 192 35.346 220.654 64 256 64 L 256 128 C 185.308 128 128 70.692 128 0 Z"/></svg></a>
+<div class="links"><a href="#console">Console</a><a href="#architecture">Architecture</a><a href="#model">Model</a><a href="#batch">Batch</a><a href="#api">API</a><a href="#roadmap">Roadmap</a><a href="#about">About</a></div>
+<a class="btn" href="https://github.com/Nikhil-creat" target="_blank" rel="noopener">GitHub ›</a><button id="mb" aria-label="Menu">☰</button></div></nav>
+<main id="top">
+<div class="w hero"><div class="chip rv" id="st">● connecting…</div><h1 class="rv" style="margin-top:24px">Discover worlds.<br><span class="shiny">Autonomously</span></h1>
+<p class="sub rv">ExoMind-X is an enterprise multi-agent platform that detrends Kepler light curves, classifies transits with a dual-branch CNN, and verifies every call against astrophysics literature.</p>
+<div class="row rv"><a class="btn" href="#console">Launch live console ›</a><a class="btn o" href="/docs">API docs</a><span class="mut">FastAPI · LangGraph · Qdrant · MLflow</span></div></div>
+<div class="bar"><div class="w"><div>★<b>ExoMind-X</b><span>File</span><span>Edit</span><span>View</span><span>Agents</span><span>Help</span></div><div id="clock" class="mut"></div></div></div>
+
+<div class="w"><div class="grid g4" style="margin:48px 0 0">
+<div class="card lg rv"><div class="big" data-n="2001">0</div><p>global-view bins</p></div><div class="card lg rv"><div class="big" data-n="201">0</div><p>local-view bins</p></div>
+<div class="card lg rv"><div class="big" data-n="4">0</div><p>specialist agents</p></div><div class="card lg rv"><div class="big" data-n="17">0</div><p>Kepler quarters (Q1–Q17)</p></div></div></div>
+<section id="console"><div class="w"><div class="eb"><i></i>Live Console <u>real API</u></div><h2 class="rv">Vet a signal<br>in real time.</h2>
+<p class="p">Tune a Threshold-Crossing Event and the agent graph responds: classifier, diagnostics, hybrid retrieval, and active-learning routing.</p>
+<div class="con rv"><div class="tb"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span style="margin:auto">ExoMind-X — TCE Analyzer</span></div>
+<div class="cb"><div class="cl">
+<label>Period (d)<b id="v0"></b></label><input type="range" id="period" min="0.5" max="400" step="0.1" value="12.4">
+<label>Duration (h)<b id="v1"></b></label><input type="range" id="duration" min="0.5" max="24" step="0.1" value="3.2">
+<label>Depth (ppm)<b id="v2"></b></label><input type="range" id="depth_ppm" min="50" max="60000" step="50" value="1200">
+<label>SNR<b id="v3"></b></label><input type="range" id="snr" min="0" max="120" step="1" value="28">
+<label>Secondary (ppm)<b id="v4"></b></label><input type="range" id="secondary_ppm" min="0" max="30000" step="50" value="0">
+<div class="pre"><button data-p="3.5,3,10000,90,0">Hot Jupiter</button><button data-p="42,5,600,12,0">Marginal</button><button data-p="2.2,4,25000,60,15000">Eclipsing binary</button></div></div>
+<div class="cr"><div class="cap">Global view (phase-folded)</div><canvas id="cg" width="700" height="130"></canvas><div class="cap">Local view (±4× duration)</div><canvas id="cl" width="700" height="130"></canvas>
+<div class="cap">P(Planet) <b id="pp">–</b> · baseline <span id="pb">–</span> <span class="chip" id="vd">…</span></div><div class="gauge"><div id="gg" style="width:0"></div></div>
+<div class="tr" id="tr" style="margin-top:14px"></div><div class="tr" id="rg" style="margin-top:8px"></div></div></div></div></div></section>
+
+<section id="pipeline"><div class="w"><div class="eb"><i></i>Pipeline <u>5 stages</u></div><h2 class="rv">From photons<br>to verdicts.</h2>
+<div class="grid g3">
+<div class="card lg rv"><span class="n">01</span><h3>Async ingestion</h3><p>Kepler DR24 TCEs, GroupShuffleSplit by kepid (80/10/10), lightkurve stitching, transit-masked flatten(401), parquet cache.</p></div>
+<div class="card lg rv"><span class="n">02</span><h3>Dual-view folding</h3><p>2,001-bin global and 201-bin local views, median flux 0, deepest point −1, plus period, duration, depth metadata.</p></div>
+<div class="card lg rv"><span class="n">03</span><h3>ExoNet-V2 + baseline</h3><p>Dual 1D-CNN branches with BatchNorm, MaxPool, Dropout vs a HistGradientBoosting baseline. MLflow + ONNX export.</p></div>
+<div class="card lg rv"><span class="n">04</span><h3>Agent graph + RAG</h3><p>Ingestion → Classifier → Diagnostic → RAG. Hybrid dense + BM25 retrieval with reciprocal rank fusion over NASA ADS/arXiv.</p></div>
+<div class="card lg rv"><span class="n">05</span><h3>Active learning</h3><p>Entropy sampler routes 0.45 ≤ P ≤ 0.55 into a Redis HITL queue for expert labels, then retrains.</p></div>
+<div class="card lg rv"><span class="n">06</span><h3>Secure serving</h3><p>FastAPI, token-bucket limiter, OAuth2-ready, OpenTelemetry traces, Prometheus <code>/metrics</code>, non-root Docker.</p></div></div></div></section>
+
+<section id="stack"><div class="w"><div class="eb"><i></i>Stack <u>production-grade</u></div><h2 class="rv">Built like<br>infrastructure.</h2>
+<div class="grid g4">
+<div class="card lg rv"><h3>Async core</h3><p>Python 3.11, Pydantic v2, Asyncio, Celery, Redis</p></div><div class="card lg rv"><h3>Deep learning</h3><p>PyTorch, ONNX Runtime, TensorRT, scikit-learn, MLflow</p></div>
+<div class="card lg rv"><h3>Agentic AI</h3><p>LangGraph, LangChain, Gemini / Groq tool-calling</p></div><div class="card lg rv"><h3>Hybrid RAG</h3><p>Qdrant, FastEmbed, BM25, RRF</p></div>
+<div class="card lg rv"><h3>HITL ops</h3><p>Redis queue, uncertainty sampler</p></div><div class="card lg rv"><h3>Security</h3><p>Rate limiting, OAuth2, hardened headers</p></div>
+<div class="card lg rv"><h3>Observability</h3><p>OpenTelemetry, Prometheus, Grafana, Pytest</p></div><div class="card lg rv"><h3>DevOps</h3><p>Multi-stage Docker, Compose, Render</p></div></div></div></section>
+
+<section id="architecture"><div class="w"><div class="eb"><i></i>Architecture <u>end-to-end</u></div><h2 class="rv">One graph.<br>Six layers.</h2>
+<div class="card lg rv" style="overflow-x:auto;margin-top:36px"><svg viewBox="0 0 720 120" style="width:100%;min-width:640px"><rect x="4" y="30" width="104" height="60" rx="12" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.25)"/><text x="56" y="56" fill="#fff" font-size="12" font-weight="600" text-anchor="middle">Kepler DR24</text><text x="56" y="74" fill="#A4F4FD" font-size="9" text-anchor="middle">TCE + light curves</text><path d="M108 60h12" stroke="#00d2ff" stroke-width="1.6"/><rect x="124" y="30" width="104" height="60" rx="12" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.25)"/><text x="176" y="56" fill="#fff" font-size="12" font-weight="600" text-anchor="middle">Async ingest</text><text x="176" y="74" fill="#A4F4FD" font-size="9" text-anchor="middle">detrend · fold</text><path d="M228 60h12" stroke="#00d2ff" stroke-width="1.6"/><rect x="244" y="30" width="104" height="60" rx="12" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.25)"/><text x="296" y="56" fill="#fff" font-size="12" font-weight="600" text-anchor="middle">ExoNet-V2</text><text x="296" y="74" fill="#A4F4FD" font-size="9" text-anchor="middle">global+local CNN</text><path d="M348 60h12" stroke="#00d2ff" stroke-width="1.6"/><rect x="364" y="30" width="104" height="60" rx="12" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.25)"/><text x="416" y="56" fill="#fff" font-size="12" font-weight="600" text-anchor="middle">Agent graph</text><text x="416" y="74" fill="#A4F4FD" font-size="9" text-anchor="middle">diagnose</text><path d="M468 60h12" stroke="#00d2ff" stroke-width="1.6"/><rect x="484" y="30" width="104" height="60" rx="12" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.25)"/><text x="536" y="56" fill="#fff" font-size="12" font-weight="600" text-anchor="middle">Hybrid RAG</text><text x="536" y="74" fill="#A4F4FD" font-size="9" text-anchor="middle">Qdrant · BM25</text><path d="M588 60h12" stroke="#00d2ff" stroke-width="1.6"/><rect x="604" y="30" width="104" height="60" rx="12" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.25)"/><text x="656" y="56" fill="#fff" font-size="12" font-weight="600" text-anchor="middle">HITL + API</text><text x="656" y="74" fill="#A4F4FD" font-size="9" text-anchor="middle">FastAPI · OTel</text></svg></div>
+<div class="grid g3"><div class="card lg rv"><h3>Leakage-proof</h3><p>Autovetter columns are rejected and splits are grouped by kepid, so no star appears in both train and test.</p></div>
+<div class="card lg rv"><h3>Uncertainty-aware</h3><p>Anything in 0.40 ≤ P ≤ 0.65, or where CNN and baseline disagree, escalates to the agent graph.</p></div>
+<div class="card lg rv"><h3>Human in the loop</h3><p>0.45 ≤ P ≤ 0.55 goes to an expert queue; labels feed the next retrain.</p></div></div></div></section>
+
+<section id="model"><div class="w"><div class="eb"><i></i>Model card <u>transparent</u></div><h2 class="rv">Know exactly<br>what runs.</h2>
+<div class="grid g2"><div class="card lg rv"><h3>ExoNet-V2 spec</h3><div class="tr" id="mc">loading…</div></div>
+<div class="card lg rv"><h3>Search the astrophysics notes (BM25)</h3><input id="rq" placeholder="e.g. secondary eclipse, V-shaped dip" style="width:100%;margin-top:10px"><div class="tr" id="rr" style="margin-top:12px">Type to search.</div></div></div>
+<p class="cap" style="margin-top:18px">Disclosure: the live demo scores with a transparent heuristic. The trained PyTorch ExoNet-V2 reference lives in <code>ml/model.py</code> and is designed to replace <code>score()</code> via ONNX.</p></div></section>
+
+<section id="api"><div class="w"><div class="eb"><i></i>API <u>OpenAPI</u></div><h2 class="rv">Ship it<br>with curl.</h2>
+<div class="grid g2"><div class="code"><button class="cp">copy</button><pre>curl -X POST $HOST/api/v1/predict \
+ -H 'Content-Type: application/json' \
+ -d '{&quot;period&quot;:12.4,&quot;duration&quot;:3.2,&quot;depth_ppm&quot;:1200,&quot;snr&quot;:28}'</pre></div>
+<div class="code"><button class="cp">copy</button><pre>curl -X POST $HOST/api/v1/agent/analyze \
+ -H 'Content-Type: application/json' \
+ -d '{&quot;period&quot;:2.2,&quot;duration&quot;:4,&quot;depth_ppm&quot;:25000,&quot;snr&quot;:60,&quot;secondary_ppm&quot;:15000}'</pre></div></div>
+<div class="chips"><span>POST /api/v1/predict</span><span>POST /api/v1/agent/analyze</span><span>POST /api/v1/batch</span><span>GET /api/v1/rag/search</span><span>GET /api/v1/model</span><span>GET /api/v1/hitl</span><span>POST /api/v1/hitl/label</span><span>GET /metrics</span></div></div></section>
+
+<section id="roadmap"><div class="w"><div class="eb"><i></i>Roadmap</div><h2 class="rv">Where it<br>goes next.</h2>
+<div class="grid g3"><div class="card lg rv"><span class="n">NOW</span><h3>Shipped</h3><p>Live console, 4-agent graph, BM25 retrieval, token-bucket limiter, metrics, tests, CI, Vercel + Docker deploys.</p></div>
+<div class="card lg rv"><span class="n">NEXT</span><h3>Real models</h3><p>Train ExoNet-V2 on DR24 with MLflow, export ONNX, add Qdrant dense retrieval with RRF, persist HITL in Redis.</p></div>
+<div class="card lg rv"><span class="n">LATER</span><h3>Full autonomy</h3><p>LangGraph with Gemini/Groq tool-calling, OpenTelemetry + Grafana, automated active-learning retrain loop.</p></div></div>
+<div style="margin-top:36px"><details class="lg card"><summary>Is the classifier trained?</summary><p>Not yet in the live demo. The repo ships the architecture, training reference and a heuristic scorer so the full pipeline is testable end to end.</p></details>
+<details class="lg card"><summary>How is data leakage prevented?</summary><p>Autovetter predictions are dropped from features and splits are grouped by star ID.</p></details>
+<details class="lg card"><summary>Can I self-host it?</summary><p>Yes: a non-root multi-stage Dockerfile and Render blueprint are included, plus Vercel config.</p></details></div></div></section>
+
+<section id="batch"><div class="w"><div class="eb"><i></i>Batch <u>POST /api/v1/batch</u></div><h2 class="rv">Score a<br>whole survey.</h2>
+<p class="p">One row per TCE: period, duration (h), depth (ppm), SNR, secondary (ppm). Up to 50 rows.</p>
+<div class="card lg rv" style="margin-top:32px"><textarea id="bt" rows="5" style="width:100%;font:12px ui-monospace,monospace">12.4,3.2,1200,28,0
+3.5,3,10000,90,0
+2.2,4,25000,60,15000</textarea><button class="btn" id="bb" style="margin-top:12px">Score batch</button><div class="tr" id="bo" style="margin-top:14px"></div></div></div></section>
+
+<section id="hitl"><div class="w"><div class="eb"><i></i>Active learning <u>live queue</u></div><h2 class="rv">Humans where<br>it matters.</h2>
+<p class="p">Ambiguous signals (0.45 ≤ P ≤ 0.55) land here. Try the sliders until the gauge sits near 50%.</p>
+<div class="card lg rv" style="margin-top:32px"><div class="tr" id="hq">Queue empty.</div></div></div></section>
+
+<section id="about"><div class="w"><div class="eb"><i></i>Creator</div><h2 class="rv">Built by<br>Nikhil Chary Sriramoju.</h2>
+<p class="p">Final-year B.Tech Computer Science student building production-style AI/ML, agentic systems, and cybersecurity platforms end to end, from model to container to deployment.</p>
+<div class="chips"><span style="border-color:#28c840;color:#28c840">● Open to AI/ML internships</span><span>B.Tech CSE · Final year</span><span>AI / ML</span><span>Agentic AI</span><span>RAG</span><span>CNN / PyTorch</span><span>FastAPI</span><span>Docker</span><span>Cybersecurity</span><span>LangGraph</span><span>MLOps</span><span>Distributed systems</span></div>
+<div class="row" style="justify-content:flex-start"><a class="btn" href="https://github.com/Nikhil-creat" target="_blank" rel="noopener">GitHub</a><a class="btn o" href="https://in.linkedin.com/in/nikhil-chary-sriramoju-95041b38a" target="_blank" rel="noopener">LinkedIn</a><a class="btn o" href="mailto:sriramojunikhil66@gmail.com">Email</a></div></div></section>
+
+<section id="contact"><div class="w"><div class="cta lg rv"><h2 style="margin-top:0">Let’s build<br>something stellar.</h2><p class="p" style="margin:20px auto">Recruiting, collaboration, or questions about the platform.</p>
+<form id="cf" style="max-width:420px;margin:28px auto 0;text-align:left"><input name="name" placeholder="Name" required><input name="email" type="email" placeholder="Email" required><textarea name="message" rows="4" placeholder="Message" required></textarea><button class="btn" style="justify-content:center">Send message</button><div id="cm" class="mut"></div></form></div></div></section>
+</main>
+<footer><div class="w"><div class="grid"><div><svg width="28" height="28" viewBox="0 0 256 256" fill="#fff"><path d="M 0 128 C 70.692 128 128 185.308 128 256 L 64 256 C 64 220.654 35.346 192 0 192 Z M 256 192 C 220.654 192 192 220.654 192 256 L 128 256 C 128 185.308 185.308 128 256 128 Z M 128 0 C 128 70.692 70.692 128 0 128 L 0 64 C 35.346 64 64 35.346 64 0 Z M 192 0 C 192 35.346 220.654 64 256 64 L 256 128 C 185.308 128 128 70.692 128 0 Z"/></svg><p style="margin-top:14px;max-width:22rem;line-height:1.6">Autonomous multi-agent exoplanet discovery and astrophysics RAG platform.</p></div>
+<div><h4>Platform</h4><a href="#console">Live console</a><a href="#pipeline">Pipeline</a><a href="/docs">API docs</a><a href="/metrics">Metrics</a></div>
+<div><h4>Project</h4><a href="#stack">Stack</a><a href="#model">Model card</a><a href="#roadmap">Roadmap</a><a href="#hitl">HITL queue</a><a href="/api/v1/health">Status</a></div>
+<div><h4>Connect</h4><a href="https://github.com/Nikhil-creat" target="_blank" rel="noopener">GitHub</a><a href="https://in.linkedin.com/in/nikhil-chary-sriramoju-95041b38a" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.instagram.com/nikhil__sriramoju" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/profile.php?id=100079201124141" target="_blank" rel="noopener">Facebook</a><a href="mailto:sriramojunikhil66@gmail.com">Email</a></div></div>
+<div class="mut">© 2026 Nikhil Chary Sriramoju · ExoMind-X Enterprise</div></div></footer>
+<script src="app.js"></script></body></html>

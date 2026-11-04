@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: exomind-x
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/v1/health
